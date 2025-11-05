@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/app/loading.module.css [app-rsc] (css module)"],"sourcesContent":["__turbopack_context__.v({\n  \"text\": \"loading-module__PBh0PW__text\",\n});\n"],"names":[],"mappings":"AAAA;AACA;AACA"}},
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/%D0%90%D0%B4%D0%BC%D0%B8%D0%BD/Documents/GitHub/07-routing-nextjs/app/loading.tsx"],"sourcesContent":["import css from './loading.module.css';\r\n\r\nexport default function Loading() {\r\n  return (\r\n    <>\r\n      <p className={css.text}>Loading, please wait...</p>\r\n    </>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;;AAAA;;;AAEe,SAAS;IACtB,qBACE;kBACE,cAAA,8OAAC;YAAE,WAAW,qIAAG,CAAC,IAAI;sBAAE;;;;;;;AAG9B","debugId":null}}]
+}

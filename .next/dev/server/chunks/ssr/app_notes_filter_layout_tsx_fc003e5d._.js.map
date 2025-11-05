@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/%D0%90%D0%B4%D0%BC%D0%B8%D0%BD/Documents/GitHub/07-routing-nextjs/app/notes/filter/layout.tsx"],"sourcesContent":["type SidebarNotesProps = {\r\n  children: React.ReactNode;\r\n  sidebar: React.ReactNode;\r\n};\r\n\r\nconst NotesLayout = ({ children, sidebar }: SidebarNotesProps) => {\r\n  return (\r\n    <>\r\n      <aside>{sidebar}</aside>\r\n      <div>{children}</div>\r\n    </>\r\n  );\r\n};\r\n\r\nexport default NotesLayout;\r\n"],"names":[],"mappings":";;;;;;AAKA,MAAM,cAAc,CAAC,EAAE,QAAQ,EAAE,OAAO,EAAqB;IAC3D,qBACE;;0BACE,8OAAC;0BAAO;;;;;;0BACR,8OAAC;0BAAK;;;;;;;;AAGZ;uCAEe","debugId":null}}]
+}
