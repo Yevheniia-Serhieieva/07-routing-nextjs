@@ -1,0 +1,1 @@
+{"version":3,"sources":["turbopack:///[project]/app/@modal/default.tsx"],"sourcesContent":["const Default = () => null;\r\n\r\nexport default Default;\r\n"],"names":[],"mappings":"oPAAgB,IAAM"}

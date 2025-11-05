@@ -1,0 +1,3 @@
+module.exports=[32401,a=>{a.v({container:"page-module__E0kJGG__container",description:"page-module__E0kJGG__description",main:"page-module__E0kJGG__main",title:"page-module__E0kJGG__title"})},66188,a=>{"use strict";var b=a.i(7997),c=a.i(32401);a.s(["default",0,()=>(0,b.jsxs)(b.Fragment,{children:[(0,b.jsx)("h1",{className:c.default.title,children:"404 - Page not found"}),(0,b.jsx)("p",{className:c.default.description,children:"Sorry, the page you are looking for does not exist."})]})])}];
+
+//# sourceMappingURL=app_403d4b20._.js.map

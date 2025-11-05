@@ -36,6 +36,51 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
 }
 
 
+// Validate ../../app/@modal/(.)notes/[id]/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/notes/[id]">> = Specific
+  const handler = {} as typeof import("../../app/@modal/(.)notes/[id]/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/notes/[id]/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/notes/[id]">> = Specific
+  const handler = {} as typeof import("../../app/notes/[id]/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/notes/filter/[...slug]/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/notes/filter/[...slug]">> = Specific
+  const handler = {} as typeof import("../../app/notes/filter/[...slug]/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/notes/filter/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/notes/filter">> = Specific
+  const handler = {} as typeof import("../../app/notes/filter/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/notes/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/notes">> = Specific
+  const handler = {} as typeof import("../../app/notes/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../app/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/">> = Specific
@@ -55,6 +100,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
 {
   type __IsExpected<Specific extends LayoutConfig<"/">> = Specific
   const handler = {} as typeof import("../../app/layout.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/notes/filter/layout.tsx
+{
+  type __IsExpected<Specific extends LayoutConfig<"/notes/filter">> = Specific
+  const handler = {} as typeof import("../../app/notes/filter/layout.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

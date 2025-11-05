@@ -74,7 +74,7 @@ const NotesClient = () => {
         )}
 
         {isModalOpen && (
-          <Modal onClose={closeModal}>
+          <Modal>
             <NoteForm onCancel={closeModal} />
           </Modal>
         )}
