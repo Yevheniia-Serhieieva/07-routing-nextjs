@@ -5,6 +5,5 @@
   "/notes/[id]/page": "/notes/[id]",
   "/notes/filter/[...slug]/page": "/notes/filter/[...slug]",
   "/notes/filter/page": "/notes/filter",
-  "/notes/page": "/notes",
   "/page": "/"
 }

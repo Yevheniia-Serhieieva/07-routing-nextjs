@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/app/notes/filter/[...slug]/error.module.css [app-ssr] (css module)"],"sourcesContent":["__turbopack_context__.v({\n  \"text\": \"error-module__hn8_xa__text\",\n});\n"],"names":[],"mappings":"AAAA;AACA;AACA"}},
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/%D0%90%D0%B4%D0%BC%D0%B8%D0%BD/Documents/GitHub/07-routing-nextjs/app/notes/filter/%5B...slug%5D/error.tsx"],"sourcesContent":["'use client';\r\n\r\nimport css from './error.module.css';\r\n\r\ntype Props = {\r\n  error: Error;\r\n};\r\n\r\nconst ErrorNote = ({ error }: Props) => {\r\n  return (\r\n    <>\r\n      <p className={css.text}>Could not fetch the list of notes. {error.message}</p>\r\n    </>\r\n  );\r\n};\r\n\r\nexport default ErrorNote;\r\n"],"names":[],"mappings":";;;;;AAEA;AAFA;;;AAQA,MAAM,YAAY,CAAC,EAAE,KAAK,EAAS;IACjC,qBACE;kBACE,cAAA,8OAAC;YAAE,WAAW,wKAAG,CAAC,IAAI;;gBAAE;gBAAoC,MAAM,OAAO;;;;;;;;AAG/E;uCAEe","debugId":null}}]
+}

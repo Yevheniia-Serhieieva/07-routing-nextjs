@@ -79,12 +79,6 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
-      "page": "/notes",
-      "regex": "^/notes(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/notes(?:/)?$"
-    },
-    {
       "page": "/notes/filter",
       "regex": "^/notes/filter(?:/)?$",
       "routeKeys": {},
