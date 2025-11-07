@@ -6,11 +6,12 @@ import { useId } from 'react';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import type { NoteTag } from '../../types/note';
+import type { Note, NoteTag } from '../../types/note';
 import { createNote } from '@/lib/api';
 
 interface NoteFormProps {
   onCancel: () => void;
+  onSubmit: (note: Partial<Note>) => void;
 }
 interface NoteFormValues {
   title: string;
@@ -35,12 +36,12 @@ const validationSchema = Yup.object().shape({
     .required('Tag is required'),
 });
 
-export default function NoteForm({ onCancel }: NoteFormProps) {
+export default function NoteForm({ onCancel, onSubmit }: NoteFormProps) {
   const queryClient = useQueryClient();
   const fieldId = useId();
 
   const mutation = useMutation({
-    mutationFn: (values: NoteFormValues) => createNote(values.title, values.content, values.tag),
+    mutationFn: (values: NoteFormValues) => createNote(values),
   });
 
   const handleSubmit = (values: NoteFormValues, actions: FormikHelpers<NoteFormValues>) => {
@@ -49,6 +50,7 @@ export default function NoteForm({ onCancel }: NoteFormProps) {
         toast.success('Note created');
         queryClient.invalidateQueries({ queryKey: ['notes'] });
         actions.resetForm();
+        onSubmit(values);
         onCancel();
       },
       onError: error => toast.error(error.message || 'Failed to create note'),

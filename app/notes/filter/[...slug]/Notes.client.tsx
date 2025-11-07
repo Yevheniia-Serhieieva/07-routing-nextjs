@@ -1,40 +1,99 @@
 'use client';
 
 import Loading from '@/app/loading';
+import Modal from '@/components/Modal/Modal';
+import NoteForm from '@/components/NoteForm/NoteForm';
 import NoteList from '@/components/NoteList/NoteList';
-import { getNotes } from '@/lib/api';
+import Pagination from '@/components/Pagination/Pagination';
+import { createNote, getNotes } from '@/lib/api';
 import { Note } from '@/types/note';
-import { useParams } from 'next/navigation';
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-export default function Notes() {
-  const params = useParams();
-  const slug = params?.slug as string[] | undefined;
-  const tag = slug?.[0] === 'all' ? undefined : slug?.[0];
+type NotesProps = {
+  tag?: string;
+};
 
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
-    const fetchNotes = async () => {
-      setIsLoading(true);
-      try {
-        const res = await getNotes(1, 12, tag);
-        setNotes(res.notes);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
 
-    fetchNotes();
-  }, [tag]);
+  return debouncedValue;
+}
+
+export default function Notes({ tag }: NotesProps) {
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const debouncedSearch = useDebounce(search, 500);
+  const queryClient = useQueryClient();
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['notes', { page: currentPage, search: debouncedSearch, tag }],
+    queryFn: () => getNotes(currentPage, 12, debouncedSearch, tag),
+    placeholderData: keepPreviousData,
+  });
+
+  const notes: Note[] = data?.notes || [];
+  const totalPages = data?.totalPages || 1;
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const router = useRouter();
+
+  const handleCreateNote = async (note: Partial<Note>) => {
+    if (!note.title || !note.content || !note.tag) {
+      toast.error('Error');
+      return;
+    }
+
+    try {
+      await createNote({ title: note.title, content: note.content, tag: note.tag });
+      toast.success('Note created!');
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error('Failed to create note');
+    }
+  };
 
   if (isLoading) return <Loading />;
+  if (isError) return <p>Error to loading notes...</p>;
 
   return (
     <div>
       <h1> {tag ? `Notes: '${tag}'` : 'All notes'} </h1>
+      <button onClick={() => setIsModalOpen(true)}>+ New Note</button>
+      <input
+        type="text"
+        placeholder="Search notes..."
+        value={search}
+        onChange={e => {
+          setSearch(e.target.value);
+          setCurrentPage(1);
+        }}
+      />
+
       {notes.length > 0 && <NoteList notes={notes} />}
+      <Pagination
+        pageCount={totalPages}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
+
+      {isModalOpen && (
+        <Modal onClose={() => router.back()}>
+          <NoteForm onSubmit={handleCreateNote} onCancel={() => setIsModalOpen(false)} />
+        </Modal>
+      )}
     </div>
   );
 }

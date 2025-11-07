@@ -20,13 +20,16 @@ const myKey = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 export const getNotes = async (
   page: number = 1,
   perPage: number = 12,
+  search?: string,
   tag?: string
 ): Promise<NoteListResponse> => {
-  const params: Record<string, string | number> = { page, perPage };
-  if (tag) params.tag = tag;
-
   const response = await axios.get<NoteListResponse>(`/notes`, {
-    params,
+    params: {
+      page,
+      perPage,
+      ...(search ? { search } : {}),
+      ...(tag && tag !== 'all' ? { tag } : {}),
+    },
     headers: {
       accept: 'application/json',
       Authorization: `Bearer ${myKey}`,
@@ -46,14 +49,12 @@ export const fetchNoteById = async (id: string): Promise<Note> => {
   return response.data;
 };
 
-export const createNote = async (title: string, content: string, tag: NoteTag): Promise<Note> => {
-  const newNote = {
-    title,
-    content,
-    tag,
-  };
-
-  const response = await axios.post<Note>(`/notes`, newNote, {
+export const createNote = async (note: {
+  title: string;
+  content: string;
+  tag: NoteTag;
+}): Promise<Note> => {
+  const response = await axios.post<Note>(`/notes`, note, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${myKey}`,
@@ -71,10 +72,5 @@ export const deleteNote = async (id: string): Promise<Note> => {
     },
   });
 
-  return response.data;
-};
-
-export const getTags = async () => {
-  const response = await axios<Tag[]>(`/categories`);
   return response.data;
 };
