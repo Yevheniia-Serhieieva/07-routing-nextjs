@@ -8,9 +8,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import type { Note, NoteTag } from '../../types/note';
 import { createNote } from '@/lib/api';
+import { useRouter } from 'next/navigation';
 
 interface NoteFormProps {
-  onCancel: () => void;
   onSubmit: (note: Partial<Note>) => void;
 }
 interface NoteFormValues {
@@ -36,9 +36,11 @@ const validationSchema = Yup.object().shape({
     .required('Tag is required'),
 });
 
-export default function NoteForm({ onCancel, onSubmit }: NoteFormProps) {
+export default function NoteForm({ onSubmit }: NoteFormProps) {
   const queryClient = useQueryClient();
   const fieldId = useId();
+
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: (values: NoteFormValues) => createNote(values),
@@ -51,7 +53,6 @@ export default function NoteForm({ onCancel, onSubmit }: NoteFormProps) {
         queryClient.invalidateQueries({ queryKey: ['notes'] });
         actions.resetForm();
         onSubmit(values);
-        onCancel();
       },
       onError: error => toast.error(error.message || 'Failed to create note'),
     });
@@ -95,7 +96,7 @@ export default function NoteForm({ onCancel, onSubmit }: NoteFormProps) {
         </div>
 
         <div className={css.actions}>
-          <button onClick={onCancel} type="button" className={css.cancelButton}>
+          <button onClick={() => router.back()} type="button" className={css.cancelButton}>
             Cancel
           </button>
           <button type="submit" className={css.submitButton} disabled={mutation.isPending}>

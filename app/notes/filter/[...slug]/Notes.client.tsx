@@ -5,10 +5,10 @@ import Modal from '@/components/Modal/Modal';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import NoteList from '@/components/NoteList/NoteList';
 import Pagination from '@/components/Pagination/Pagination';
+import SearchBox from '@/components/SearchBox/SearchBox';
 import { createNote, getNotes } from '@/lib/api';
 import { Note } from '@/types/note';
 import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -47,8 +47,6 @@ export default function Notes({ tag }: NotesProps) {
     setCurrentPage(page);
   };
 
-  const router = useRouter();
-
   const handleCreateNote = async (note: Partial<Note>) => {
     if (!note.title || !note.content || !note.tag) {
       toast.error('Error');
@@ -58,7 +56,7 @@ export default function Notes({ tag }: NotesProps) {
     try {
       await createNote({ title: note.title, content: note.content, tag: note.tag });
       toast.success('Note created!');
-      queryClient.invalidateQueries({ queryKey: ['notes'] });
+      queryClient.invalidateQueries({ queryKey: ['notes'], exact: false });
       setIsModalOpen(false);
     } catch (error) {
       toast.error('Failed to create note');
@@ -72,26 +70,21 @@ export default function Notes({ tag }: NotesProps) {
     <div>
       <h1> {tag ? `Notes: '${tag}'` : 'All notes'} </h1>
       <button onClick={() => setIsModalOpen(true)}>+ New Note</button>
-      <input
-        type="text"
-        placeholder="Search notes..."
-        value={search}
-        onChange={e => {
-          setSearch(e.target.value);
-          setCurrentPage(1);
-        }}
-      />
+      <SearchBox value={search} onSearchChange={setSearch} />
 
       {notes.length > 0 && <NoteList notes={notes} />}
-      <Pagination
-        pageCount={totalPages}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
+
+      {notes.length > 0 && (
+        <Pagination
+          pageCount={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      )}
 
       {isModalOpen && (
-        <Modal onClose={() => router.back()}>
-          <NoteForm onSubmit={handleCreateNote} onCancel={() => setIsModalOpen(false)} />
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <NoteForm onSubmit={handleCreateNote} />
         </Modal>
       )}
     </div>
