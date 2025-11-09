@@ -47,6 +47,11 @@ export default function Notes({ tag }: NotesProps) {
     setCurrentPage(page);
   };
 
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setCurrentPage(1);
+  };
+
   const handleCreateNote = async (note: Partial<Note>) => {
     if (!note.title || !note.content || !note.tag) {
       toast.error('Error');
@@ -70,7 +75,7 @@ export default function Notes({ tag }: NotesProps) {
     <div>
       <h1> {tag ? `Notes: '${tag}'` : 'All notes'} </h1>
       <button onClick={() => setIsModalOpen(true)}>+ New Note</button>
-      <SearchBox value={search} onSearchChange={setSearch} />
+      <SearchBox value={search} onSearchChange={handleSearchChange} />
 
       {notes.length > 0 && <NoteList notes={notes} />}
 
